@@ -1,0 +1,118 @@
+{% extends 'Layout.html' %}
+
+{% block title %}Add Inquiries{% endblock %}
+
+{% block abcd %}
+    <style>
+        /* General page styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        /* Container for the form */
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-container form input[type="text"],
+        .form-container form input[type="email"],
+        .form-container form textarea,
+        .form-container form select,
+        .form-container form button {
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        /* Focus effect for input fields */
+        .form-container form input:focus,
+        .form-container form textarea:focus,
+        .form-container form select:focus {
+            border-color: #3498db;
+        }
+
+        /* Styling for the submit button */
+        .form-container form button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .form-container form button:hover {
+            background-color: #2980b9;
+        }
+
+        .form-container form button:active {
+            background-color: #1c6db2;
+        }
+
+        /* Optional cancel button styling */
+        .cancel-btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cancel-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+
+    </style>
+
+<div class="form-container">
+    <h1>Add Inquiry</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formInquiries.as_p }}
+
+        <button type="submit">Save Inquiry</button>
+    </form>
+
+    <div class="cancel-btn-container">
+        <a href="{% url 'apartment' %}" class="cancel-btn">Cancel</a>
+    </div>
+</div>
+{% endblock %}
+
+

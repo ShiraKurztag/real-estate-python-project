@@ -1,0 +1,146 @@
+{% extends 'Layout.html' %}
+{% block title %}Add Apartment{% endblock %}
+{% block abcd %}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f9fc;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h1 {
+        text-align: center;
+        font-size: 2rem;
+        color: #34495e;
+        margin-bottom: 1.5rem;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    label {
+        font-size: 1rem;
+        color: #34495e;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-container input,
+    .form-container select,
+    .form-container button {
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-container input:focus,
+    .form-container select:focus {
+        border-color: #1abc9c;
+        box-shadow: 0 0 5px rgba(26, 188, 156, 0.4);
+    }
+
+    .form-container button {
+        background: linear-gradient(135deg, #1abc9c, #16a085);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        text-align: center;
+        transition: background 0.3s ease-in-out, transform 0.2s ease;
+    }
+
+    .form-container button:hover {
+        background: linear-gradient(135deg, #16a085, #1abc9c);
+        transform: scale(1.05);
+    }
+
+    .form-container button.cancel-btn {
+        background-color: #e74c3c;
+        margin-top: 1rem;
+        text-decoration: none;
+    }
+
+    .form-container button.cancel-btn a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .form-container button.cancel-btn:hover {
+        background-color: #c0392b;
+    }
+
+    .form-container input[type="file"] {
+        border: 1px solid #ddd;
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .form-container input[type="file"]:hover {
+        border-color: #1abc9c;
+    }
+
+    /* עיצוב כפתור העלאת תמונות */
+    .form-container .file-label {
+        display: flex;
+        align-items: center;
+        background-color: #1abc9c;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .form-container .file-label:hover {
+        background-color: #16a085;
+    }
+
+    .form-container .file-label i {
+        margin-right: 10px;
+    }
+
+    .form-container .file-input {
+        display: none;
+    }
+</style>
+
+<div class="form-container">
+    <h1>הוספת דירה חדשה</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formApartment.as_p }}
+
+        <label for="image">העלאת תמונות (ניתן לבחור מספר תמונות)</label>
+        <label for="image" class="file-label">
+            <i class="fa fa-image"></i> בחר תמונות
+        </label>
+        <input type="file" name="image" id="image" multiple class="file-input">
+
+        <button type="submit" class="fa fa-check"> שמירה </button>
+        <button type="button" class="cancel-btn">
+            <a href="{% url 'apartment' %}" class="cancel-btn fa fa-times-circle"> סגירה </a>
+        </button>
+    </form>
+</div>
+
+{% endblock %}

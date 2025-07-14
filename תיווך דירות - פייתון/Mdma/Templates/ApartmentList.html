@@ -1,0 +1,285 @@
+{% extends 'Layout.html' %}
+{% block title %}Apartments{% endblock %}
+{% block abcd %}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<style>
+    /* עיצוב כללי */
+    body {
+        background-color: #f7f9fc;
+        margin: 0;
+        padding: 0;
+    }
+
+    .apartments-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-title {
+        font-family: 'calibiri', sans-serif;
+        text-align: center;
+        font-size: 2rem;
+        color: #34495e;
+        margin-bottom: 1.5rem;
+    }
+
+    /* עיצוב כפתורים */
+    button {
+        font-family: 'calibiri', sans-serif;
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;  /* הקטנו את הגודל של הכפתור */
+        margin: 8px;  /* הקטנו את המרווח */
+        font-size: 0.9rem;  /* הקטנו את הגודל של הטקסט */
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(135deg, #1abc9c, #16a085);
+        border: none;
+        border-radius: 20px;  /* עיצוב מעוגל יותר */
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);  /* צל קטן יותר */
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #16a085, #1abc9c);
+        text-decoration: none;
+    }
+
+    button a {
+        color: white;
+        text-decoration: none; /* הסרת קו תחתון בקישור */
+    }
+
+    /* טופס חיפוש */
+    form {
+        margin: 1rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;  /* הקטנו את הרווח */
+    }
+
+    select,
+    input[type="text"],
+    button[type="submit"] {
+        padding: 8px;
+        font-size: 0.9rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    select:focus,
+    input[type="text"]:focus {
+        outline: none;
+        border-color: #1abc9c;
+        box-shadow: 0px 0px 5px rgba(26, 188, 156, 0.4);
+    }
+
+    /* רשימת דירות */
+    .apartment-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .apartment-card {
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+
+    .apartment-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* תוית "available" */
+    .apartment-status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(39, 174, 96, 0.7); /* צבע ירוק עם שקיפות */
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: normal;
+        padding: 5px 10px;
+        border-radius: 15px;
+        text-transform: none;
+    }
+
+    .apartment-price {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #e74c3c;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .apartment-id {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        padding: 5px 10px;
+        text-align: center;
+    }
+
+    /* תמונות */
+    .apartment-images {
+        height: 200px;
+        overflow: hidden;
+        text-align: center;
+        background-color: #ecf0f1;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .apartment-images img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        position: absolute;
+        transition: opacity 1s ease-in-out;
+    }
+
+    /* שורת כפתורים מוצגת בצורה מאוזנת */
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 12px; /* רווח קטן יותר בין הכפתורים */
+        margin-top: 10px;
+    }
+
+    /* אייקונים מגניבים בעזרת FontAwesome */
+    .fa {
+        font-size: 1.1rem;
+        margin-right: 6px; /* הקטנו את המרווח */
+    }
+
+    /* הסרת קו תחתון מכפתורים */
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    /* עיצוב כפתורים שיצגו את האייקונים */
+    .action-button {
+        display: inline-block;
+        padding: 8px 16px;  /* גודל קטן יותר */
+        margin: 8px;  /* מרווח קטן יותר */
+        font-size: 0.9rem;  /* גודל טקסט קטן יותר */
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(135deg, #1abc9c, #16a085);
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-button:hover {
+        background: linear-gradient(135deg, #16a085, #1abc9c);
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="apartments-container">
+    <h1 class="page-title">דירות למכירה</h1>
+
+    {% if role == "broker" or role == "seller" %}
+    <div class="button-container">
+        <button class="action-button"><a href="{% url 'addApartment' %}"><i class="fa fa-plus"></i>הוספת דירה</a></button>
+        <button class="action-button"><a href="{% url 'inquiries' %}"><i class="fa fa-list"></i>רשימת פניות</a></button>
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <select name="stype">
+            <option>מחיר</option>
+            <option>מוכר</option>
+            <option>עיר</option>
+        </select>
+        <input type="text" placeholder="הכנס חיפוש" name="svalue">
+        <button type="submit" class="fa fa-search"></button>
+    </form>
+
+    <div class="apartment-list">
+        {% for a in apartments %}
+        <div class="apartment-card">
+            <div class="apartment-status">available</div>
+
+            <br/><br/><br/>
+            <div class="apartment-price">מחיר: ₪{{ a.price }}</div>
+            <p class="apartment-id">   שכונה:   {{ a.neighborhood }}</p>
+            <p class="apartment-id">   עיר:   {{ a.city }}</p>
+            <p class="apartment-id">   מס' חדרים:   {{ a.rooms }}</p>
+
+            <div class="apartment-images">
+                {% for i in images %}
+                {% if i.apartment.id == a.id %}
+                <img src="{{ i.image.url }}" alt="Apartment Image">
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="button-container">
+            {% if role == "broker" or role == "seller" %}
+            {% if a.seller == request.user %}
+            <form method="POST" action="{% url 'buy' id=a.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-button fa fa-check"> קניה </button>
+            </form>
+            {% endif %}
+            {% endif %}
+
+            {% if role == "broker" or role == "seller" or role == "user" %}
+            <form method="POST" action="{% url 'addInquiries' id=a.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-button fa fa-heart"> פניה </button>
+            </form>
+            {% endif %}
+
+            {% if role == "broker" or role == "seller" %}
+            {% if a.seller == request.user %}
+            <form method="GET" action="{% url 'addImage' id=a.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-button fa fa-upload"> תמונה </button>
+            </form>
+            {% endif %}
+            {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // פונקציה להחלפת תמונה כל 3 שניות
+    const apartmentImagesContainers = document.querySelectorAll('.apartment-images');
+
+    apartmentImagesContainers.forEach(container => {
+        const images = container.querySelectorAll('img');
+        let currentIndex = 0;
+
+        setInterval(() => {
+            images[currentIndex].style.opacity = '0';
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].style.opacity = '1';
+        }, 3000);  // זמן המתנה של 3 שניות
+    });
+</script>
+
+{% endblock %}

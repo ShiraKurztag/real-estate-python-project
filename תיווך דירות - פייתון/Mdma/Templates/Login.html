@@ -1,0 +1,114 @@
+{% extends 'Layout.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block abcd %}
+    <style>
+        /* General page styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        /* Centered form container */
+        .form-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-container form input[type="text"],
+        .form-container form input[type="password"],
+        .form-container form button {
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        /* Focus effect for input fields */
+        .form-container form input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        /* Button styling */
+        .form-container form button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .form-container form button:hover {
+            background-color: #2980b9;
+        }
+
+        .form-container form button:active {
+            background-color: #1c6db2;
+        }
+
+        /* Forgot password link styling */
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="form-container">
+        <h1>Login</h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Render the login form fields -->
+            {{ form.as_p }}
+
+            <!-- Submit button -->
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Forgot password link -->
+
+    </div>
+
+{% endblock %}
